@@ -1,15 +1,28 @@
+"use client";
+
+import api from "@/api";
 import Layouts from "@/components/Layouts";
+import ProductList from "@/components/elements/ProductList/ProductList";
+import { useEffect, useState } from "react";
 
 const Page = () => {
+  const [products, setProducts] = useState([]);
+
+  const fetchProducts = async () => {
+    const response = await api.get("/products");
+    const data = await response.data.payload;
+    setProducts(data);
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <Layouts>
-      <div className="w-full h-screen flex justify-center items-center flex-col">
-        <h1>INI HALAMAN HOME</h1>
-        <h1>MASIH DALAM TAHAP DEVELOP</h1>
-        <p>
-          Jika Anda menggunkan handphone harap nyalakan mode desktop untuk
-          mengakses fitur terbaru
-        </p>
+      <div className="max-w-7xl mx-auto px-4">
+        <h1>Home</h1>
+        <ProductList products={products} />
       </div>
     </Layouts>
   );
