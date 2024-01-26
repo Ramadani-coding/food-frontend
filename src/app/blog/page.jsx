@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import Layouts from "@/components/Layouts";
 import Image from "next/image";
 
