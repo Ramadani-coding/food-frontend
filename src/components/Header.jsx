@@ -44,6 +44,13 @@ const Header = ({ handleOpenModalCart }) => {
             </ul>
           </div>
           <div>
+            <input
+              type="text"
+              placeholder="Mau makan apa?"
+              className="p-2 rounded-md"
+            />
+          </div>
+          <div>
             <button
               type="button"
               className="relative rounded-full bg-[#FB923C] p-2 text-gray-100"
