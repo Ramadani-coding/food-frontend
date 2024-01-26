@@ -2,13 +2,33 @@
 
 import { useRouter, usePathname } from "next/navigation";
 import { MENU_LIST } from "./constants";
+import Link from "next/link";
+import CartModal from "@/features/cart/CartModal";
+import { useCarts, useCartsDispatch } from "@/context/CartContext";
+import Image from "next/image";
 
-const Header = ({ handleOpenModalCart }) => {
+const Header = () => {
   const router = usePathname();
   const page = useRouter();
+  const carts = useCarts();
+  const dispatch = useCartsDispatch();
 
   const handleMovePage = (path) => {
     page.push(path);
+  };
+
+  const handleAddToCart = (product) => {
+    dispatch({
+      type: "add",
+      payload: product,
+    });
+  };
+
+  const handleDecsreaseCart = (product) => {
+    dispatch({
+      type: "decsrease",
+      payload: product,
+    });
   };
 
   return (
@@ -17,7 +37,7 @@ const Header = ({ handleOpenModalCart }) => {
         <div className="flex justify-between items-center h-20">
           <div>
             <h1 className="text-orange-300 text-2xl md:text-3xl font-bold">
-              NYUNCAKE
+              <Link href="/">NYUNCAKE</Link>
             </h1>
             <small className="text-orange-300 text-xs md:text-[14px]">
               Savor Joyful Flavor Advanture!
@@ -52,24 +72,77 @@ const Header = ({ handleOpenModalCart }) => {
           <div>
             <button
               type="button"
-              className="relative rounded-full bg-[#FB923C] p-2 text-gray-100"
-              onClick={handleOpenModalCart}
+              className="relative rounded-full bg-[#FB923C] p-2 text-gray-100 hover:drop-shadow-lg hover:scale-110 transition-all border-none"
+              onClick={() => document.getElementById("my_modal_1").showModal()}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
                 viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
+                fill="currentColor"
                 className="w-6 h-6"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                  fillRule="evenodd"
+                  d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z"
+                  clipRule="evenodd"
                 />
               </svg>
             </button>
+            <dialog id="my_modal_1" className="modal">
+              <div className="modal-box">
+                <h3 className="font-bold text-lg">Belanjaa Kamu</h3>
+                <div className="mt-6 flex flex-col gap-6 overflow-auto max-h-[70%]">
+                  {carts.map((cart, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex flex-row justify-between"
+                      >
+                        <div className="relative w-14 mr-2">
+                          <Image
+                            src={cart.image}
+                            alt={cart.name}
+                            fill
+                            className="rounded-tl-md rounded-md w-full object-cover"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1 max-w-[70%] p-3">
+                          <p className="max-w-full text-ellipsis overflow-hidden whitespace-nowrap">
+                            {" "}
+                            {cart.name}{" "}
+                          </p>
+                          <p>
+                            Rp{" "}
+                            {new Intl.NumberFormat("id-ID").format(cart.price)}
+                          </p>
+                        </div>
+                        <div className="flex flex-row gap-2 items-center justify-between w-[30%] ml-auto">
+                          <button
+                            onClick={() => handleDecsreaseCart(cart)}
+                            className="w-6 h-6 bg-[#FB923C] rounded-full text-white hover:brightness-[130%] transition-all"
+                          >
+                            -
+                          </button>
+                          <p> {cart.quantity} </p>
+                          <button
+                            onClick={() => handleAddToCart(cart)}
+                            className="w-6 h-6 bg-[#FB923C] rounded-full text-white hover:brightness-[130%] transition-all"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div className="modal-action">
+                    <form method="dialog">
+                      {/* if there is a button in form, it will close the modal */}
+                      <button className="btn">Close</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </dialog>
           </div>
         </div>
       </div>
