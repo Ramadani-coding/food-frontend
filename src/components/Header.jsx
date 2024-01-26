@@ -6,7 +6,6 @@ import { MENU_LIST } from "./constants";
 const Header = ({ handleOpenModalCart }) => {
   const router = usePathname();
   const page = useRouter();
-  const textActive = "text-[#fb923c]";
 
   const handleMovePage = (path) => {
     page.push(path);
