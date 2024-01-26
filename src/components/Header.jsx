@@ -3,7 +3,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import { MENU_LIST } from "./constants";
 
-const Header = () => {
+const Header = ({ handleOpenModalCart }) => {
   const router = usePathname();
   const page = useRouter();
   const textActive = "text-[#fb923c]";
@@ -18,7 +18,7 @@ const Header = () => {
         <div className="flex justify-between items-center h-20">
           <div>
             <h1 className="text-orange-300 text-2xl md:text-3xl font-bold">
-              NYUNFOOD
+              NYUNCAKE
             </h1>
             <small className="text-orange-300 text-xs md:text-[14px]">
               Savor Joyful Flavor Advanture!
@@ -47,6 +47,7 @@ const Header = () => {
             <button
               type="button"
               className="relative rounded-full bg-[#FB923C] p-2 text-gray-100"
+              onClick={handleOpenModalCart}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -21,7 +21,14 @@ const Page = () => {
   return (
     <Layouts>
       <div className="max-w-7xl mx-auto px-4">
-        <h1>Home</h1>
+        <div className="text-center p-4">
+          <h1 className="text-2xl font-semibold text-orange-900">
+            OUR NYUNCAKE
+          </h1>
+          <p className="text-gray-900 font-medium">
+            Tempting Treats, Unforgettable Bites
+          </p>
+        </div>
         <ProductList products={products} />
       </div>
     </Layouts>

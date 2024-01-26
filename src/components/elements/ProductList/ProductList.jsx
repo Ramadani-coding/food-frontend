@@ -2,12 +2,12 @@ import Image from "next/image";
 
 const ProductList = ({ products }) => {
   return (
-    <div className="w-full flex gap-4 flex-wrap">
+    <div className="w-full grid gap-4 md:grid-cols-3 lg:grid-cols-5 grid-cols-1">
       {products.map((product, index) => {
         return (
           <div
             key={index}
-            className="bg-white w-60 h-[280px] shadow-md rounded-md flex flex-col justify-between"
+            className="bg-white w-full md:w-60 h-[280px] shadow-md rounded-md flex flex-col justify-between"
           >
             <div className="relative w-full h-52 object-contain">
               <Image
