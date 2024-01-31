@@ -6,8 +6,10 @@ import Link from "next/link";
 import CartModal from "@/features/cart/CartModal";
 import { useCarts, useCartsDispatch } from "@/context/CartContext";
 import Image from "next/image";
+import { useState } from "react";
 
 const Header = () => {
+  const [payAmount, setPayAmount] = useState();
   const router = usePathname();
   const page = useRouter();
   const carts = useCarts();
@@ -30,6 +32,33 @@ const Header = () => {
       payload: product,
     });
   };
+
+  const getTotalPrice = () => {
+    let totalPrice = 0;
+
+    for (let i = 0; i < carts.length; i++) {
+      totalPrice += carts[i].price * carts[i].quantity;
+    }
+
+    return totalPrice;
+  };
+
+  const handleCangePay = (event) => {
+    const { target } = event;
+    const { value } = target;
+
+    setPayAmount(value);
+  };
+
+  // const handleCahckaout = async () => {
+  //   try {
+  //     const payload = {
+  //       totalPrice
+  //     }
+  //   } catch {
+
+  //   }
+  // }
 
   return (
     <header className="bg-amber-900">
@@ -89,9 +118,9 @@ const Header = () => {
               </svg>
             </button>
             <dialog id="my_modal_1" className="modal">
-              <div className="modal-box">
+              <div className="modal-box flex flex-col">
                 <h3 className="font-bold text-lg">Belanjaa Kamu</h3>
-                <div className="mt-6 flex flex-col gap-6 overflow-auto max-h-[70%]">
+                <div className="mt-6 flex flex-col gap-6 overflow-auto max-h-[80%]">
                   {carts.map((cart, index) => {
                     return (
                       <div
@@ -134,12 +163,30 @@ const Header = () => {
                       </div>
                     );
                   })}
-                  <div className="modal-action">
-                    <form method="dialog">
-                      {/* if there is a button in form, it will close the modal */}
-                      <button className="btn">Close</button>
-                    </form>
+                </div>
+                <div className="mt-auto flex flex-col gap-5 pt-4">
+                  <div className="flex flex-row justify-between">
+                    <p>Total Harga</p>
+                    <p>{getTotalPrice()}</p>
                   </div>
+                  <div className="flex flex-row gap-3 items-center justify-between">
+                    <label>Bayar</label>
+                    <input
+                      type="number"
+                      placeholder="0"
+                      className="border-2 border-solid border-gray-200 rounded-3xl text-[14px] pt-[6px] pr-[6px] pb-[6px] pl-[14px] w-[75%] outline-none"
+                      onChange={handleCangePay}
+                    />
+                  </div>
+                  <button className="bg-[#78350F] h-10 text-center border-none rounded-3xl outline-none text-white hover:brightness-[130%] transition-all">
+                    Checkout
+                  </button>
+                </div>
+                <div className="modal-action">
+                  <form method="dialog">
+                    {/* if there is a button in form, it will close the modal */}
+                    <button className="btn">Close</button>
+                  </form>
                 </div>
               </div>
             </dialog>
