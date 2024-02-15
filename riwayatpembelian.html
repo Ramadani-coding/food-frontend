@@ -7,6 +7,40 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .search-container {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-right: 10px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 15px;
+            background-color: #efa911;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #efa911;
+      }
+
+      body {
           font-family: Arial, sans-serif;
           margin: 20px;
       }
@@ -68,6 +102,14 @@
       <div class="text-orange-400 text-5xl tracking-[2.4px] self-center whitespace-nowrap mt-14 max-md:mt-10">
         <span class="text-orange-400">PURCHASE HISTORY</span>
       </div>
+      
+      <div class="search-container">
+        <form action="/search" method="get">
+            <input type="text" id="search" name="search" placeholder="Cari disini...">
+            <input type="submit" value="Cari">
+        </form>
+    </div>
+
       <table>
         <thead>
             <tr>
