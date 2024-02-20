@@ -35,8 +35,8 @@ const Page = () => {
           </div>
         </div>
         <ProductList products={products} />
-        <Footer />
       </div>
+      <Footer />
     </Layouts>
   );
 };
