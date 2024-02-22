@@ -7,6 +7,7 @@ import CartModal from "@/features/cart/CartModal";
 import { useCarts, useCartsDispatch } from "@/context/CartContext";
 import Image from "next/image";
 import { useState } from "react";
+import api from "@/api";
 
 const Header = () => {
   const [payAmount, setPayAmount] = useState();
@@ -50,15 +51,32 @@ const Header = () => {
     setPayAmount(value);
   };
 
-  // const handleCahckaout = async () => {
-  //   try {
-  //     const payload = {
-  //       totalPrice
-  //     }
-  //   } catch {
+  const handleCahckaout = async () => {
+    const products = carts.map((item) => {
+      return {
+        id: item.id,
+        quantity: item.quantity,
+      };
+    });
+    try {
+      const payload = {
+        total_price: +getTotalPrice(),
+        paid_amount: +payAmount,
+        products,
+      };
+      await api.post("/transactions", payload);
+      setPayAmount(0);
+      dispatch({
+        type: "clear",
+      });
+    } catch {
+      throw Error("error");
+    }
+  };
 
-  //   }
-  // }
+  const isDisableButton = () => {
+    return !payAmount || +payAmount < +getTotalPrice() || carts.length === 0;
+  };
 
   return (
     <header className="bg-amber-900">
@@ -176,9 +194,18 @@ const Header = () => {
                       placeholder="0"
                       className="border-2 border-solid border-gray-200 rounded-3xl text-[14px] pt-[6px] pr-[6px] pb-[6px] pl-[14px] w-[75%] outline-none"
                       onChange={handleCangePay}
+                      value={payAmount}
                     />
                   </div>
-                  <button className="bg-[#78350F] h-10 text-center border-none rounded-3xl outline-none text-white hover:brightness-[130%] transition-all">
+                  <button
+                    className={`bg-[#78350F] h-10 text-center border-none rounded-3xl outline-none text-white hover:brightness-[130%] transition-all cursor-pointer ${
+                      isDisableButton()
+                        ? "contrast-[50%] pointer-events-none"
+                        : ""
+                    }`}
+                    onClick={handleCahckaout}
+                    disabled={isDisableButton()}
+                  >
                     Checkout
                   </button>
                 </div>

@@ -36,6 +36,9 @@ function cartsReducer(state, action) {
         }
       }
     }
+    case "clear": {
+      return [];
+    }
     default: {
       throw Error("Unknown action: " + action.type);
     }
