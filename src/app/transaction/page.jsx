@@ -21,7 +21,9 @@ const Page = () => {
   return (
     <Layouts>
       <div className="max-w-7xl mx-auto px-4">
-        <h1 className="mt-4">History Transactions</h1>
+        <h1 className="mt-4 mb-4 text-center text-2xl font-bold">
+          History Transactions
+        </h1>
         <TransactionList transactions={transctions} />
       </div>
     </Layouts>
